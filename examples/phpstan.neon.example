@@ -1,0 +1,57 @@
+parametersSchema:
+    phpStormMetaPaths: listOf(string())
+includes:
+    - phpstorm-meta.php
+
+services:
+    cachedParserForMeta:
+        class: PHPStan\Parser\CachedParser
+        arguments:
+            originalParser: @currentPhpVersionRichParser
+            cachedNodesByStringCountMax: %cache.nodesByStringCountMax%
+        autowired: false
+    -
+        class: PhpStormMetaStan\Service\MetaFileParser
+        arguments:
+            parser: @cachedParserForMeta
+            metaPaths: %phpStormMetaPaths%
+    -
+        class: PhpStormMetaStan\Service\OverrideParser
+    -
+        class: PhpStormMetaStan\Service\TypeFromMetaResolver
+
+    # create a service for each class in your code that has some overrides defined in the meta file
+    # you need to instantiate a different service class depending on whether those overrides are for static or non-static methods
+    -
+        class: PhpStormMetaStan\Service\StaticMethodReturnTypeResolver
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+        arguments:
+            className: Mage
+            methodNames:
+                - helper
+                - getModel
+                - getResourceModel
+                - getResourceHelper
+                - getResourceSingleton
+                - getBlockSingleton
+                - getSingleton
+
+    -
+        class: PhpStormMetaStan\Service\NonStaticMethodReturnTypeResolver
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+        arguments:
+            className: Mage_Core_Block_Abstract
+            methodNames:
+                - helper
+
+    -
+        class: PhpStormMetaStan\Service\NonStaticMethodReturnTypeResolver
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+        arguments:
+            className: Mage_Core_Model_Layout
+            methodNames:
+                - helper
+                - createBlock

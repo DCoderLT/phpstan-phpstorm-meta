@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'parameters' => [
+        'phpStormMetaPaths' => [
+            __DIR__ . '/.phpstorm.meta.php/magento_blocks.meta.php',
+            __DIR__ . '/.phpstorm.meta.php/magento_blocks_methods.meta.php',
+            __DIR__ . '/.phpstorm.meta.php/magento_helpers.meta.php',
+            __DIR__ . '/.phpstorm.meta.php/magento_helpers_methods.meta.php',
+            __DIR__ . '/.phpstorm.meta.php/magento_models.meta.php',
+            __DIR__ . '/.phpstorm.meta.php/magento_models_methods.meta.php',
+            __DIR__ . '/.phpstorm.meta.php/magento_resource_helpers.meta.php',
+            __DIR__ . '/.phpstorm.meta.php/magento_resource_models.meta.php',
+            __DIR__ . '/.phpstorm.meta.php/magento_resource_models_methods.meta.php',
+        ],
+    ],
+];
